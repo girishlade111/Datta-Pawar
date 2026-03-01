@@ -14,7 +14,7 @@ Datta Pawar is a documentation platform that presents 27 recorded events with vi
 
 ## ✨ Features
 
-- **Cinematic Visual Experience**: Immersive full-width images with cinematic styling
+- **Cinematic Visual Experience**: Immersive full-width images with cinematic styling 
 - **Search Functionality**: Real-time search through all documented events
 - **Scroll Animations**: Smooth parallax effects and scroll-triggered animations
 - **Responsive Design**: Fully responsive across all device sizes
