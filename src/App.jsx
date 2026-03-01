@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+// eslint-disable-next-line no-unused-vars
 import { motion, useScroll, useTransform, AnimatePresence, useSpring } from 'framer-motion'
 
 // Cinematic placeholder images - dark moody landscapes
@@ -278,7 +279,7 @@ function SearchBar({ onSearch, searchQuery, resultCount }) {
 }
 
 // Search Result Item Component
-function SearchResult({ statement, index, imageUrl, onClick, resultNumber }) {
+function SearchResult({ statement, index, imageUrl, onClick }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -577,25 +578,18 @@ function Footer() {
 function App() {
   const [events] = useState(eventStatements)
   const [searchQuery, setSearchQuery] = useState('')
-  const [filteredResults, setFilteredResults] = useState([])
 
-  // Filter events based on search query
-  useEffect(() => {
-    if (searchQuery.trim() === '') {
-      setFilteredResults([])
-      return
-    }
+  // Filter events based on search query - derived from state, no useEffect needed
+  const filteredResults = searchQuery.trim() === '' 
+    ? [] 
+    : eventStatements
+        .map((statement, index) => ({ statement, index }))
+        .filter(item => item.statement.toLowerCase().includes(searchQuery.toLowerCase()))
+        .slice(0, 10)
 
-    const query = searchQuery.toLowerCase()
-    const results = eventStatements
-      .map((statement, index) => ({ statement, index }))
-      .filter(item => 
-        item.statement.toLowerCase().includes(query)
-      )
-      .slice(0, 10)
-
-    setFilteredResults(results)
-  }, [searchQuery])
+  const clearSearch = () => {
+    setSearchQuery('')
+  }
 
   // Keyboard shortcut for search
   useEffect(() => {
@@ -613,11 +607,6 @@ function App() {
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
-
-  const clearSearch = () => {
-    setSearchQuery('')
-    setFilteredResults([])
-  }
 
   return (
     <div className="relative min-h-screen bg-[#0c0c0e]">
